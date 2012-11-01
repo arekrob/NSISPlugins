@@ -89,9 +89,8 @@ Install:
   ; 1641 - Instalator rozpoczął ponowny rozruch.
   ; 3010 - Ukończenie instalacji wymaga ponownego uruchomienia
   ${If} $R1 == 3010
-    StrCpy $7 "NeedsRestart"
-  ${Else}
-    StrCpy $7 "NoNeedToRestart"
+    DetailPrint "Będzie wymagane ponowne uruchomienie komputera."
+    SetRebootFlag true
   ${EndIf}
 
   DetailPrint "Instalacja Microsoft .NET Framework 4 Client Profile zakończona (kod wyjścia: $R1). Sprawdzanie..."

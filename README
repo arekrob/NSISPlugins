@@ -1,0 +1,14 @@
+The plugins here are in polish language version.
+
+Here you can find WORKING plugins for NSIS Unicode which check if
+* .NET Framework 2.0.50727
+* .NET Framework 4.0
+* Windows Imaging Component
+
+or
+
+* Windows Installer 3.1
+
+is installed and installs the software if needed.
+
+Contrary to other plugins, these plugins properly run installers in passive mode (i.e. the installers ask the user no questions) and properly check if Windows needs to restart after installing.

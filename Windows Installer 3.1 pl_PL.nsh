@@ -1,5 +1,7 @@
 ﻿;*********************************************************************
 ; Windows Installer 3.1
+; 
+; This script is checked on pure installation of Windows XP: works and asks no questions to the user.
 ;*********************************************************************
 
 Function UpdateMSIVersion
@@ -15,9 +17,6 @@ Function UpdateMSIVersion
     Goto ExitFunction
  
   InstallMSI:
-;    MessageBox MB_OK|MB_ICONEXCLAMATION \
-;"Windows Installer 3.1 was not detected; this is required for installation. \
-;Setup will install the Windows Installer. This may take awhile, please wait."
     Push 1
     Goto ExitFunction
  
@@ -26,7 +25,6 @@ Function UpdateMSIVersion
 FunctionEnd
 
 !macro CheckWININST
-
 DetailPrint "Sprawdzanie istniejącej wersji Windows Installer..."
 StrCpy $8 ""
 CheckBeginWININST:
@@ -55,18 +53,17 @@ AbortMeWININST:
   Quit
 
 InstallWININST:
-  DetailPrint "Instalowanie Windows Installer 3.1."
-  ExecWait '"additional/WindowsInstaller-KB893803-v2-x86.exe" /q /passive /norestart /msioptions "REBOOT=ReallySuppress"' $R1
-  
+  DetailPrint "Instalowanie Windows Installer 3.1..."
+  ExecWait 'additional/runWI.exe' $R1
+
   ; 1641 - Instalator rozpoczął ponowny rozruch.
   ; 3010 - Ukończenie instalacji wymaga ponownego uruchomienia
   ${If} $R1 == 3010
-    StrCpy $7 "NeedsRestart"
-  ${Else}
-    StrCpy $7 "NoNeedToRestart"
+    DetailPrint "Będzie wymagane ponowne uruchomienie komputera."
+    SetRebootFlag true
   ${EndIf}
-
-  DetailPrint "Instalacja Windows Installer 3.1 zakończona. Sprawdzanie..."
+  
+  DetailPrint "Instalacja Windows Installer 3.1 zakończona (kod wyjścia: $R1). Sprawdzanie..."
   StrCpy $8 "AfterInstall"
   Goto CheckBeginWININST
 
